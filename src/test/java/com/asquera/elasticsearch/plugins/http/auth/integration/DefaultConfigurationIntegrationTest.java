@@ -40,13 +40,13 @@ public class DefaultConfigurationIntegrationTest extends HttpBasicServerPluginIn
 
     @Test
     public void testHealthCheck() throws Exception {
-        HttpResponse response = httpClient().path("/").execute();
+        HttpResponse response = httpTestClient().path("/").execute();
         assertThat(response.getStatusCode(), equalTo(RestStatus.OK.getStatus()));
     }
 
     @Test
     public void localhostClientIsIpAuthenticated() throws Exception {
-        HttpResponse response = httpClient().path("/_status").execute();
+        HttpResponse response = httpTestClient().path("/_status").execute();
         assertThat(response.getStatusCode(), equalTo(RestStatus.OK.getStatus()));
     }
 }

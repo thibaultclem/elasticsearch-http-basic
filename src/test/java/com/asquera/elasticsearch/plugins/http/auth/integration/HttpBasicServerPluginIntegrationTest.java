@@ -2,17 +2,13 @@
 package com.asquera.elasticsearch.plugins.http.auth.integration;
 
 
-import java.net.InetSocketAddress;
-
+import com.asquera.elasticsearch.plugins.http.HttpBasicServerPlugin;
 import org.apache.http.impl.client.HttpClients;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.Base64;
-import org.elasticsearch.http.HttpServerTransport;
+import org.elasticsearch.common.settings.ImmutableSettings;
+import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.test.ElasticsearchIntegrationTest;
 import org.elasticsearch.test.rest.client.http.HttpRequestBuilder;
-import com.asquera.elasticsearch.plugins.http.HttpBasicServerPlugin;
-import org.elasticsearch.common.settings.ImmutableSettings.Builder;
-import org.elasticsearch.common.settings.ImmutableSettings;
 
 /**
  *
@@ -37,8 +33,15 @@ ElasticsearchIntegrationTest {
   }
 
   protected HttpRequestBuilder requestWithCredentials(String credentials) throws Exception {
-        return httpClient().path("/_status")
+        return httpTestClient().path("/_status")
           .addHeader("Authorization", "Basic " + Base64.encodeBytes(credentials.getBytes()));
-    }
+  }
+
+  public static HttpRequestBuilder httpTestClient() {
+    return new HttpRequestBuilder(HttpClients.createDefault())
+        .host(cluster().httpAddresses()[0].getHostName())
+        .port(cluster().httpAddresses()[0].getPort()
+        );
+  }
 
 }

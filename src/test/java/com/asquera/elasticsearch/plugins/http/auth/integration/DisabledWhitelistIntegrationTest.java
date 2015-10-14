@@ -19,10 +19,8 @@
 package com.asquera.elasticsearch.plugins.http.auth.integration;
 
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.Base64;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.test.ElasticsearchIntegrationTest.ClusterScope;
-import org.elasticsearch.test.rest.client.http.HttpRequestBuilder;
 import org.elasticsearch.test.rest.client.http.HttpResponse;
 import org.apache.http.client.methods.HttpHead;
 import org.junit.Test;
@@ -46,20 +44,20 @@ public class DisabledWhitelistIntegrationTest extends HttpBasicServerPluginInteg
 // TODO put the set credentials ussing Setter
     @Test
     public void clientIpAuthenticationFails() throws Exception {
-        HttpResponse response = httpClient().path("/_status").execute();
+        HttpResponse response = httpTestClient().path("/_status").execute();
         assertThat(response.getStatusCode(), equalTo(RestStatus.UNAUTHORIZED.getStatus()));
     }
 
     @Test
     // GET by default
     public void testHealthCheck() throws Exception {
-        HttpResponse response = httpClient().path("/").execute();
+        HttpResponse response = httpTestClient().path("/").execute();
         assertThat(response.getStatusCode(), equalTo(RestStatus.OK.getStatus()));
     }
 
     @Test
     public void testHealthCheckHeadMethod() throws Exception {
-        HttpResponse response = httpClient().method(HttpHead.METHOD_NAME).path("/").execute();
+        HttpResponse response = httpTestClient().method(HttpHead.METHOD_NAME).path("/").execute();
         assertThat(response.getStatusCode(), equalTo(RestStatus.OK.getStatus()));
     }
 

@@ -19,10 +19,8 @@
 package com.asquera.elasticsearch.plugins.http.auth.integration;
 
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.Base64;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.test.ElasticsearchIntegrationTest.ClusterScope;
-import org.elasticsearch.test.rest.client.http.HttpRequestBuilder;
 import org.elasticsearch.test.rest.client.http.HttpResponse;
 import org.junit.Test;
 
@@ -54,7 +52,7 @@ public class IpAuthenticationIntegrationTest extends HttpBasicServerPluginIntegr
 
     @Test
     public void testHealthCheck() throws Exception {
-        HttpResponse response = httpClient().path("/").execute();
+        HttpResponse response = httpTestClient().path("/").execute();
         assertThat(response.getStatusCode(), equalTo(RestStatus.OK.getStatus()));
     }
 
